@@ -77,4 +77,6 @@ void init(){
 END
 )
 
+(register-feature! #:opengl-glew)
+
 ) ; module end
