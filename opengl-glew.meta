@@ -1,0 +1,8 @@
+;; opengl-glew.meta -*- scheme -*-
+
+((synopsis "Bindings to OpenGL core profile with extension loading with GLEW")
+ (author "Alex Charlton")
+ (category graphics)
+ (license "BSD")
+ (depends make bind)
+ (foreign-depends "OpenGL" "GLEW"))

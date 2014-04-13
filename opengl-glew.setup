@@ -1,0 +1,31 @@
+;; opengl-glew.setup -*- scheme -*-
+
+(use make)
+
+(include "gl-translator")
+
+(define compile-options
+  (cond-expand
+    (macosx "-FOpenGL")
+    (else "")))
+
+(define link-options
+  (cond-expand
+    (macosx "-framework OpenGL")
+    (windows "-lopengl32")
+    (else "-lGL")))
+
+(make (("glcorearb.h" ()
+        (system "wget http://www.opengl.org/registry/api/GL/glcorearb.h"))
+       ("gl.h" ("glcorearb.h")
+        (gl-translate "glcorearb.h"))
+       ("opengl-glew.so" ("opengl-glew.scm" "gl.h")
+        (compile -s -O3 -d0 opengl-glew.scm ,compile-options ,link-options -lGLEW -J))
+       ("opengl-glew.import.so" ("opengl-glew.so")
+        (compile -s -O3 -d0 opengl-glew.import.scm)))
+  '("opengl-glew.so" "opengl-glew.import.so"))
+
+(install-extension
+ 'opengl-glew
+ '("opengl-glew.so" "opengl-glew.import.so")
+ '((version "0.0.1")))
