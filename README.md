@@ -2,7 +2,7 @@
 
 Bindings to OpenGL with GLEW extension loading.
 
-Chicken's other [opengl](http://wiki.call-cc.org/eggref/4/opengl) bindings are based on old fixed function pipeline OpenGL. These bindings are designed to be always up-to-date with the most recent [core header file](http://www.opengl.org/registry/api/GL/glcorearb.h). Additionally, bindings to [GLEW](http://glew.sourceforge.net/) are provided for extension management.
+Chicken's other [opengl](http://wiki.call-cc.org/eggref/4/opengl) bindings are based on the old fixed function pipeline OpenGL. These bindings are designed to be always up-to-date with the most recent [core header file](http://www.opengl.org/registry/api/GL/glcorearb.h). Additionally, bindings to [GLEW](http://glew.sourceforge.net/) are provided for extension management.
 
 ## Requirements
 - Make
@@ -11,15 +11,28 @@ Chicken's other [opengl](http://wiki.call-cc.org/eggref/4/opengl) bindings are b
 ## Documentation
 All functions and constants from the OpenGL [core header file](http://www.opengl.org/registry/api/GL/glcorearb.h) are exported. Scheme style names are provided (underscores and camelCase replaced with hyphens), the `gl` prefix is removed from names, `is` functions are given question marks, and constants are bookended by `+`s (e.g. `tex-image2d`, `enabled?`, `+arb-viewport-array+`).
 
-Additionally, two GLEW functions are exposed:
+### GLEW functions
+#### init
+    (init)
 
-- `(init)`: Required to initialize GLEW/OpenGL. An OpenGL context must be created before this is called.
-- `(is-supported? string) -> boolean`: Query whether the given OpenGL extension is supported.
+Required to initialize GLEW/OpenGL. An OpenGL context must be created before this is called.
 
-Finally, the following helper functions are provided:
+#### supported?
+    (supported? EXTENSION-NAME)
 
--`(make-shader shader-type shader-source) -> int`: Creates and compiles a shader object given the shader's type and source string.
-- `(make-program shader-list) -> int`: Creates and links a program object, given a list of shader objects.
+Query whether the OpenGL extension, given as a string, is supported.
+
+### GL helper functions
+#### make-shader
+    (make-shader TYPE SOURCE)
+
+Creates and compiles a shader object given the shader's type (e.g. `+vertex-shader+`, `+geometry-shader+`, `+fragment-shader`), and a string containing the GLSL source. Returns an integer representing the ID of the shader.
+
+#### make-program
+    (make-program SHADER-LIST)
+
+Creates and links a program object, given a list of shader objects (i.e. the integers returned by `make-shader`. Returns an integer representing the ID of the program.
+
 
 
 ## Example
@@ -34,7 +47,7 @@ This example depends on the [glfw3](http://wiki.call-cc.org/eggref/4/glfw3) egg 
 (glfw:make-context-current *window*)
 (gl:init)
 
-(print (gl:is-supported "GL_ARB_framebuffer_object"))
+(print (gl:supported? "GL_ARB_framebuffer_object"))
 
 (define *vertex* (gl:make-shader gl:+vertex-shader+
 #<<END
