@@ -69,6 +69,8 @@ END
 )
 
 (glfw:with-window (640 480 "Example" resizable: #f)
+  ;; glfw3 automatically calls (gl:init) here when opengl-glew is loaded
+
   (print (gl:supported? "GL_ARB_framebuffer_object"))
 
   (set! *vertex* (gl:make-shader gl:+vertex-shader+ *vertex*))
