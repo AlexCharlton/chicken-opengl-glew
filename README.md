@@ -42,14 +42,7 @@ This example depends on the [glfw3](http://wiki.call-cc.org/eggref/4/glfw3) egg 
 (import chicken scheme)
 (use (prefix glfw3 glfw:) (prefix opengl-glew gl:))
 
-(glfw:init)
-(define *window* (glfw:create-window 640 480 "Example" #f #f))
-(glfw:make-context-current *window*)
-(gl:init)
-
-(print (gl:supported? "GL_ARB_framebuffer_object"))
-
-(define *vertex* (gl:make-shader gl:+vertex-shader+
+(define *vertex* 
 #<<END
 #version 330
 in vec2 vertex;
@@ -62,9 +55,9 @@ void main(){
    c = color;
 }
 END
-))
+)
 
-(define *fragment* (gl:make-shader gl:+fragment-shader+
+(define *fragment*
 #<<END
 #version 330
 in vec3 c;
@@ -73,18 +66,24 @@ void main(){
   fragColor = vec4(c, 1.0);
 }
 END
-))
+)
 
-;If this is not zero, then everything is working
-(print
- (gl:make-program (list *vertex* *fragment*)))
+(glfw:with-window (640 480 "Example" resizable: #f)
+  (print (gl:supported? "GL_ARB_framebuffer_object"))
 
-(glfw:destroy-window *window*)
-(glfw:terminate)
+  (set! *vertex* (gl:make-shader gl:+vertex-shader+ *vertex*))
+  (set! *fragment* (gl:make-shader gl:+fragment-shader+ *fragment*))
+
+  ;;If this is not zero, then everything is working:
+  (print (gl:make-program (list *vertex* *fragment*))))
 ```
 
 ## Author
 Alex Charlton
+
+## Changelog
+* 0.2.0: Add glcorearb.h - no longer downloaded at install time
+* 0.1.0
 
 ## Licence
 Copyright (c) 2014, Alexander Charlton
