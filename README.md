@@ -121,6 +121,9 @@ END
 ```
 
 ## Version history
+### Version 0.3.0
+* Add single element `gen` and `delete` functions
+
 ### Version 0.2.0
 * Add glcorearb.h - no longer downloaded at install time
 
