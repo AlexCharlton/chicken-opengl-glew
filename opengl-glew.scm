@@ -1,5 +1,5 @@
 (module opengl-glew *
-(import chicken scheme bind foreign)
+(import chicken scheme bind foreign srfi-4)
 
 #>
 #include <stdlib.h>
@@ -76,6 +76,87 @@ void init(){
 }
 END
 )
+
+(define (gen-buffer)
+  (let ([vec (make-u32vector 1)])
+    (gen-buffers 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-buffer x)
+  (let ([vec (u32vector x)])
+    (delete-buffers 1 vec)))
+
+(define (gen-framebuffer)
+  (let ([vec (make-u32vector 1)])
+    (gen-framebuffers 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-framebuffer x)
+  (let ([vec (u32vector x)])
+    (delete-framebuffers 1 vec)))
+
+(define (gen-program-pipeline)
+  (let ([vec (make-u32vector 1)])
+    (gen-program-pipelines 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-program-pipeline x)
+  (let ([vec (u32vector x)])
+    (delete-program-pipelines 1 vec)))
+
+(define (gen-query)
+  (let ([vec (make-u32vector 1)])
+    (gen-queries 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-query x)
+  (let ([vec (u32vector x)])
+    (delete-queries 1 vec)))
+
+(define (gen-renderbuffer)
+  (let ([vec (make-u32vector 1)])
+    (gen-renderbuffers 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-renderbuffer x)
+  (let ([vec (u32vector x)])
+    (delete-renderbuffers 1 vec)))
+
+(define (gen-sampler)
+  (let ([vec (make-u32vector 1)])
+    (gen-samplers 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-sampler x)
+  (let ([vec (u32vector x)])
+    (delete-samplers 1 vec)))
+
+(define (gen-texture)
+  (let ([vec (make-u32vector 1)])
+    (gen-textures 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-texture x)
+  (let ([vec (u32vector x)])
+    (delete-textures 1 vec)))
+
+(define (gen-transform-feedback)
+  (let ([vec (make-u32vector 1)])
+    (gen-transform-feedbacks 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-transform-feedback x)
+  (let ([vec (u32vector x)])
+    (delete-transform-feedbacks 1 vec)))
+
+(define (gen-vertex-array)
+  (let ([vec (make-u32vector 1)])
+    (gen-vertex-arrays 1 vec)
+    (u32vector-ref vec 0)))
+
+(define (delete-vertex-array x)
+  (let ([vec (u32vector x)])
+    (delete-vertex-arrays 1 vec)))
 
 (register-feature! #:opengl-glew)
 
