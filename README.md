@@ -1,4 +1,4 @@
-# opengl-glew Chicken Scheme bindings
+# opengl-glew
 
 Bindings to OpenGL with GLEW extension loading.
 
@@ -35,6 +35,45 @@ Creates and compiles a shader object given the shader's type (e.g. `+vertex-shad
 
 Creates and links a program object, given a list of shader objects (i.e. the integers returned by `make-shader`. Returns an integer representing the ID of the program.
 
+    [procedure] (gen-buffer)
+
+    [procedure] (gen-framebuffer)
+
+    [procedure] (gen-program-pipeline)
+
+    [procedure] (gen-query)
+
+    [procedure] (gen-renderbuffer)
+
+    [procedure] (gen-sampler)
+
+    [procedure] (gen-texture)
+
+    [procedure] (gen-transform-feedback)
+
+    [procedure] (gen-vertex-array)
+
+Analogous to their pluralized counterparts, but only generates and returns one (integer) object.
+
+    [procedure] (delete-buffer BUFFER)
+
+    [procedure] (delete-framebuffer FRAMEBUFFER)
+
+    [procedure] (delete-program-pipeline PROGRAM-PIPELINE)
+
+    [procedure] (delete-query QUERY)
+
+    [procedure] (delete-renderbuffer RENDERBUFFER)
+
+    [procedure] (delete-sampler SAMPLER)
+
+    [procedure] (delete-texture TEXTURE)
+
+    [procedure] (delete-transform-feedback TRANSFORM-FEEDBACK)
+
+    [procedure] (delete-vertex-array VERTEX-ARRAY)
+
+Analogous to their pluralized counterparts, but only accepts and deletes one (integer) object.
 
 ## Example
 This example depends on the [glfw3](http://wiki.call-cc.org/eggref/4/glfw3) egg for window and context creation.
