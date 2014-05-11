@@ -20,10 +20,22 @@
        ("opengl-glew.so" ("opengl-glew.scm" "gl.h")
         (compile -s -O3 -d0 opengl-glew.scm ,compile-options ,link-options -lGLEW -J))
        ("opengl-glew.import.so" ("opengl-glew.so")
-        (compile -s -O3 -d0 opengl-glew.import.scm)))
-  '("opengl-glew.so" "opengl-glew.import.so"))
+        (compile -s -O3 -d0 opengl-glew.import.scm))
+       ("gl-utils.so" ("opengl-glew.import.so" "gl-utils.scm")
+        (compile -s -O3 gl-utils.scm -J))
+       ("gl-utils.import.so" ("gl-utils.so")
+        (compile -s -O3 gl-utils.import.scm))
+       ("gl-math.so" ("opengl-glew.import.so" "gl-math.scm" "hypermath.c")
+        (compile -s -O3 gl-math.scm -J))
+       ("gl-math.import.so" ("gl-math.so")
+        (compile -s -O3 gl-math.import.scm)))
+  '("opengl-glew.so" "opengl-glew.import.so"
+    "gl-utils.so" "gl-utils.import.so"
+    "gl-math.so" "gl-math.import.so"))
 
 (install-extension
  'opengl-glew
- '("opengl-glew.so" "opengl-glew.import.so")
- '((version "0.3.0")))
+ '("opengl-glew.so" "opengl-glew.import.so"
+   "gl-utils.so" "gl-utils.import.so"
+   "gl-math.so" "gl-math.import.so")
+ '((version "0.4.0")))

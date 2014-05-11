@@ -3,6 +3,7 @@
 
 #>
 #include <stdlib.h>
+#include <stdio.h>
 #include <GL/glew.h>
 static void showInfoLog(GLuint object){
     GLint logLength;
@@ -41,6 +42,24 @@ unsigned int makeShader(unsigned int type, const char *source){
 	return 0;
     }
     return shader;
+}
+END
+)
+
+(bind*
+ #<<END
+void checkError(){
+    switch (glGetError()){
+    case 0: return;
+    case GL_INVALID_ENUM: fprintf(stderr, "GL error: Invalid enum\n"); break;
+    case GL_INVALID_VALUE: fprintf(stderr, "GL error: Invalid value\n"); break;
+    case GL_INVALID_OPERATION: fprintf(stderr, "GL error: Invalid operation\n"); break;
+    case GL_STACK_OVERFLOW: fprintf(stderr, "GL error: Stack overflow\n"); break;
+    case GL_STACK_UNDERFLOW: fprintf(stderr, "GL error: Stack underflow\n"); break;
+    case GL_OUT_OF_MEMORY: fprintf(stderr, "GL error: Out of memory\n"); break;
+    case GL_TABLE_TOO_LARGE: fprintf(stderr, "GL error: Table too large\n"); break;
+    default: fprintf(stderr, "GL error: Unknown\n");
+    }
 }
 END
 )
