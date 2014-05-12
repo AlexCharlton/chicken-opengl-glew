@@ -311,7 +311,6 @@
              (dotimes (_ n-verts) (read)))))))
 
 (define (get-buffers elements spec)
-  (print elements)
   (let ([buffers (list-ec (: el elements)
                    (cons (first el)
                          (if (list? (car (cdaddr el)))
