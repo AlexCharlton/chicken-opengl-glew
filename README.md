@@ -346,7 +346,12 @@ END
 ```
 
 ## Version history
-### Version 0.4.0
+### Version 0.4.1
+12 May 2014
+* Remove rogue print statement
+
+**Version 0.4.0**
+11 May 2014
 * Add gl-math module
 * Add gl-utils module
 * Add `check-error`
