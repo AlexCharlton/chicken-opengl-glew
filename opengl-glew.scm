@@ -87,6 +87,7 @@ END
 
 (bind* #<<END
 void init(){
+  glewExperimental = GL_TRUE;
   GLenum err = glewInit();
   if (GLEW_OK != err){
     fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
