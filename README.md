@@ -324,7 +324,7 @@ END
   (gl:bind-vertex-array 0))
 
 (glfw:with-window (640 480 "Example" resizable: #f)
-  ;; glfw3 automatically calls (gl:init) here when opengl-glew is loaded
+  (gl:init)
 
   (print (gl:supported? "GL_ARB_framebuffer_object"))
 
@@ -351,6 +351,7 @@ END
 * Remove rogue print statement
 
 **Version 0.4.0**
+
 11 May 2014
 * Add gl-math module
 * Add gl-utils module
