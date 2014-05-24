@@ -346,7 +346,12 @@ END
 ```
 
 ## Version history
-### Version 0.4.1
+### Version 0.4.2
+24 May 2014
+* Fix segfaults caused by glewExperimental not being set (thanks, Terpri!)
+
+**Version 0.4.1**
+
 12 May 2014
 * Remove rogue print statement
 
