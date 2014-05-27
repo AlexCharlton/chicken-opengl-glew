@@ -100,6 +100,7 @@ void hpgTranslate(float x, float y, float z, float *mat){
 }
 
 void hpgRotateX(float rotation, float *mat){
+    if (rotation == 0.0) return;
     HPGmat4 rot;
     float r[16];
     initMat4(&rot);
@@ -116,6 +117,7 @@ void hpgRotateX(float rotation, float *mat){
 }
 
 void hpgRotateY(float rotation, float *mat){
+    if (rotation == 0.0) return;
     HPGmat4 rot;
     float r[16];
     initMat4(&rot);
@@ -132,6 +134,7 @@ void hpgRotateY(float rotation, float *mat){
 }
 
 void hpgRotateZ(float rotation, float *mat){
+    if (rotation == 0.0) return;
     HPGmat4 rot;
     float r[16];
     initMat4(&rot);
@@ -148,6 +151,7 @@ void hpgRotateZ(float rotation, float *mat){
 }
 
 void hpgRotate(float x, float y, float z, float angle, float *mat){
+    if (angle == 0.0) return;
     HPGmat4 m;
     float r[16];
     float c = cos(angle);
