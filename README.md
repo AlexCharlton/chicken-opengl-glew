@@ -41,9 +41,11 @@ The functions in this section are part of the opengl-glew module, rather than gl
 
 Creates and compiles a shader object given the shader's type (e.g. `+vertex-shader+`, `+geometry-shader+`, `+fragment-shader`), and a string containing the GLSL source. Returns an integer representing the ID of the shader.
 
-    [procedure] (make-program SHADER-LIST)
+    [procedure] (make-program SHADER-LIST [PROGRAM-ID])
 
 Creates and links a program object, given a list of shader objects (i.e. the integers returned by `make-shader`. Returns an integer representing the ID of the program.
+
+Accepts an optional `PROGRAM-ID` argument. If given, `make-program` will use this ID rather than generating a new one.
 
     [procedure] (gen-buffer)
     [procedure] (gen-framebuffer)
@@ -346,7 +348,13 @@ END
 ```
 
 ## Version history
-### Version 0.4.2
+### Version 0.4.3
+30 May 2014
+* Add optional program argument to `make-program`
+* gl-math short-circuits rotations of 0
+
+**Version 0.4.2**
+
 24 May 2014
 * Fix segfaults caused by glewExperimental not being set (thanks, Terpri!)
 
