@@ -64,24 +64,23 @@ void checkError(){
 END
 )
 
-(define (make-program shaders)
-  (let ([program (create-program)])
-    (let loop ([shaders shaders])
-      (if (not (null? shaders))
-          (begin (attach-shader program (car shaders))
-                 (loop (cdr shaders)))))
-    (link-program program)
-    ((foreign-lambda* unsigned-integer ((unsigned-integer program))
-   "GLint programOk;
-    glGetProgramiv(program, GL_LINK_STATUS, &programOk);
-    if (!programOk) {
-        fprintf(stderr, \"Failed to link shader program:\\n\");
-        showInfoLog(program);
-        glDeleteProgram(program);
-        C_return(0);
-    }
-    C_return(program);")
-     program)))
+(define (make-program shaders #!optional [program (create-program)])
+  (let loop ([shaders shaders])
+    (if (not (null? shaders))
+        (begin (attach-shader program (car shaders))
+               (loop (cdr shaders)))))
+  (link-program program)
+  ((foreign-lambda* unsigned-integer ((unsigned-integer program))
+     "GLint programOk;
+      glGetProgramiv(program, GL_LINK_STATUS, &programOk);
+      if (!programOk) {
+          fprintf(stderr, \"Failed to link shader program:\\n\");
+          showInfoLog(program);
+          glDeleteProgram(program);
+          C_return(0);
+      }
+      C_return(program);")
+   program))
 
 (bind "bool glewIsSupported(char *name);")
 
