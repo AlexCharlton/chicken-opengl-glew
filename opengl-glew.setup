@@ -38,4 +38,4 @@
  '("opengl-glew.so" "opengl-glew.import.so"
    "gl-utils.so" "gl-utils.import.so"
    "gl-math.so" "gl-math.import.so")
- '((version "0.4.3")))
+ '((version "0.4.4")))

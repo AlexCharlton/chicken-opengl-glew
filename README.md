@@ -357,24 +357,34 @@ END
 ```
 
 ## Version history
-### Version 0.4.3
+### Version 0.4.4
+2 June 2014
+
+* `load-ply-vao` now returns buffer data (which is important to keep around!)
+
+**Version 0.4.3**
+
 30 May 2014
+
 * Add optional program argument to `make-program`
 * gl-math short-circuits rotations of 0
 
 **Version 0.4.2**
 
 24 May 2014
+
 * Fix segfaults caused by glewExperimental not being set (thanks, Terpri!)
 
 **Version 0.4.1**
 
 12 May 2014
+
 * Remove rogue print statement
 
 **Version 0.4.0**
 
 11 May 2014
+
 * Add gl-math module
 * Add gl-utils module
 * Add `check-error`
