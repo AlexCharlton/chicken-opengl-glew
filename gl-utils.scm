@@ -458,6 +458,8 @@
              [attributes (map (lambda (v) (attribute-vars v elements))
                               vertex)])
         (values (make-vao (car buffers) (cadr buffers) attributes)
+                (car buffers)
+                (cadr buffers)
                 n-verts
                 primitive-type
                 element-type)))))
