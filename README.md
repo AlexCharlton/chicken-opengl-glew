@@ -364,6 +364,14 @@ END
 ```
 
 ## Version history
+### Version 0.5.0
+3 June 2014
+
+* `make-vao` accepts vectors and blobs
+* `load-ply` returns u8vectors rather than blobs
+* gl-utils exports a non-garbage collected by default version of srfi-4
+* gl-math can create non-garbage collected matrices
+
 ### Version 0.4.4
 2 June 2014
 
