@@ -93,13 +93,13 @@ gl-math operates on matrices in a column-major fashion in correspondence with Op
 
 Prints the given `MATRIX` to `(current-output-port)`.
 
-    [procedure] (m* A B #!optional RESULT)
+    [procedure] (m* A B [RESULT])
 
-Multiply matrix `A` by matrix `B`. If the matrix `RESULT` is given, it will be modified to contain the results of the multiplication. If `RESULT` is not provided, `A` and `B` must be f32vectors and the returned value will be an f32vector.
+Multiply matrix `A` by matrix `B`. If the matrix `RESULT` is given, it will be modified to contain the results of the multiplication. If `RESULT` is `#t`, `A` and `B` must be f32vectors and the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, `A` and `B` must be f32vectors and the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (mat4-identity #!optional RESULT)
+    [procedure] (mat4-identity [RESULT])
 
-Return an identity matrix. If `RESULT` is not provided, the returned value will be an f32vector.
+Return an identity matrix. If `RESULT` is `#t`, the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, the returned value will be an f32vector located in normal garbage collected memory.
 
     [procedure] (translate X Y Z MATRIX)
 
@@ -145,45 +145,45 @@ Flip (mirror) `MATRIX` along the y-axis.
 
 Flip (mirror) `MATRIX` along the z-axis.
 
-    [procedure] (translate-scale X Y Z SCALE #!optional RESULT)
+    [procedure] (translate-scale X Y Z SCALE [RESULT])
 
-Efficiently create a matrix translated by `X`, `Y`, and `Z` then scaled by `SCALE`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Efficiently create a matrix translated by `X`, `Y`, and `Z` then scaled by `SCALE`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (translate-rotate-scale-2d X Y Z ANGLE SCALE #!optional RESULT)
+    [procedure] (translate-rotate-scale-2d X Y Z ANGLE SCALE [RESULT])
 
-Efficiently create a matrix translated by `X`, `Y`, and `Z`, rotated around the z-axis by `ANGLE` radians, then scaled by `SCALE`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Efficiently create a matrix translated by `X`, `Y`, and `Z`, rotated around the z-axis by `ANGLE` radians, then scaled by `SCALE`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (translate-rotate-scale X Y Z RX RY RZ ANGLE SCALE #!optional RESULT)
+    [procedure] (translate-rotate-scale X Y Z RX RY RZ ANGLE SCALE [RESULT])
 
-Efficiently create a matrix translated by `X`, `Y`, and `Z`, rotated `ANGLE` radians around the axis defined by `(RX, RY, RZ)`, then scaled by `SCALE`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Efficiently create a matrix translated by `X`, `Y`, and `Z`, rotated `ANGLE` radians around the axis defined by `(RX, RY, RZ)`, then scaled by `SCALE`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (transpose MATRIX #!optional RESULT)
+    [procedure] (transpose MATRIX [RESULT])
 
-Transpose `MATRIX`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Transpose `MATRIX`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, `MATRIX` must be an f32vector and the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, `MATRIX` must be an f32vector and the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (inverse MATRIX #!optional RESULT)
+    [procedure] (inverse MATRIX [RESULT])
 
-Invert `MATRIX`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Invert `MATRIX`. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, `MATRIX` must be an f32vector and the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, `MATRIX` must be an f32vector and the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (ortho WIDTH HEIGHT NEAR FAR #!optional RESULT)
+    [procedure] (ortho WIDTH HEIGHT NEAR FAR [RESULT])
 
-Create an orthographic projection matrix. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Create an orthographic projection matrix. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (perspective WIDTH HEIGHT NEAR FAR ANGLE #!optional RESULT)
+    [procedure] (perspective WIDTH HEIGHT NEAR FAR ANGLE [RESULT])
 
-Create an perspective projection matrix. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Create an perspective projection matrix. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (frustum LEFT RIGHT BOTTOM TOP NEAR FAR #!optional RESULT)
+    [procedure] (frustum LEFT RIGHT BOTTOM TOP NEAR FAR [RESULT])
 
-Create a view-frustum matrix. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Create a view-frustum matrix. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (look-at EYE-X EYE-Y EYE-Z X Y Z UP-X UP-Y UP-Z #!optional RESULT)
+    [procedure] (look-at EYE-X EYE-Y EYE-Z X Y Z UP-X UP-Y UP-Z [RESULT])
 
-Create a “look-at” style camera matrix. The camera is positioned at `(EYE-X, EYE-Y, EYE-Z)`, pointing towards `(X, Y, Z)`. `(UP-X, UP-Y, UP-Z)` defines the camera’s up vector. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Create a “look-at” style camera matrix. The camera is positioned at `(EYE-X, EYE-Y, EYE-Z)`, pointing towards `(X, Y, Z)`. `(UP-X, UP-Y, UP-Z)` defines the camera’s up vector. If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, the returned value will be an f32vector located in normal garbage collected memory.
 
-    [procedure] (camera-inverse CAMERA #!optional RESULT)
+    [procedure] (camera-inverse CAMERA [RESULT])
 
-Invert `CAMERA` in an efficient fashion. This allows the camera to be constructed in an intuitive fashion by translating and rotating before inverting in order to position the scene properly. This function is far faster than the general `inverse` function, but the matrix `CAMERA` must only be a matrix representing a translation and a rotation (no scaling). If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is not provided, the returned value will be an f32vector.
+Invert `CAMERA` in an efficient fashion. This allows the camera to be constructed in an intuitive fashion by translating and rotating before inverting in order to position the scene properly. This function is far faster than the general `inverse` function, but the matrix `CAMERA` must only be a matrix representing a translation and a rotation (no scaling). If the matrix `RESULT` is given, it will be modified to contain the result. If `RESULT` is `#t`, `CAMERA` must be an f32vector and the returned value will be an f32vector located in non-garbage collected memory (the memory will still be freed when there are no more references to the matrix). If `RESULT` is not provided, `CAMERA` must be an f32vector and the returned value will be an f32vector located in normal garbage collected memory.
 
     [procedure] (cross-product AX AY AZ BX BY BZ)
 
@@ -209,11 +209,11 @@ Converts `ANGLE` from radians to degrees.
 ### gl-utils
 gl-utils provides functions for creating VAOs, and loading PLY files.
 
-    [procedure] (make-vao VERTEX-DATA INDEX-DATA ATTRIBUTES #!optional USAGE)
+    [procedure] (make-vao VERTEX-DATA INDEX-DATA ATTRIBUTES [USAGE])
 
-`make-vao` generalizes the typically repetitious code used to initialize vertex attribute objects. It deals with the case of having packed vertex data (`VERTEX-DATA`) and a vector of indices (`INDEX-DATA`) for those vertexes. 
+`make-vao` generalizes the typically repetitious code used to initialize vertex attribute objects. It deals with the case of having packed vertex data (`VERTEX-DATA`) and a vector of indices (`INDEX-DATA`) for those vertexes. This data may be passed as any sort of (srfi-4) vector or a blob.
 
-`ATTRIBUTES` is the list of data necessary for the vertex attributes, in the form of `((LOCATION TYPE N [normalize?: NORMALIZE?]) ...)`. `LOCATION` is the attribute location, `TYPE` is the type of data corresponding to the given attribute, given as a keyword. For possible types, see `type->gl-type`. `N` is the number of elements for the givien attribute. The keyword `normalize?:` accepts a boolean argument which instructs OpenGL to normalize the attribute or not. Defaults to `#f`.
+`ATTRIBUTES` is the list of data necessary for the vertex attributes, in the form of `((LOCATION TYPE N [normalize?: NORMALIZE?]) ...)`. `LOCATION` is the attribute location, `TYPE` is the type of data corresponding to the given attribute, given as a keyword. For possible types, see `type->gl-type`. `N` is the number of elements for the given attribute. The keyword `normalize?:` accepts a boolean argument which instructs OpenGL to normalize the attribute or not. Defaults to `#f`.
 
 The optional `USAGE` must be one of `+stream-data+`, `+stream-read+`, `stream-copy`, `+static-data+`, `+static-read+`, `static-copy`, `+dynamic-data+`, `+dynamic-read+`, `dynamic-copy`. Defaults to `+static-draw+`.
 
@@ -221,7 +221,7 @@ The optional `USAGE` must be one of `+stream-data+`, `+stream-read+`, `stream-co
 
     [procedure] (load-ply FILE BUFFER-SPEC)
 
-Loads a [PLY](http://paulbourke.net/dataformats/ply/) file. `FILE` is a path that may be pointing to a gziped PLY file. `BUFFER-SPEC` is a list in the form `((NAME VARS) ...)` where `NAME` is the name of an element in the PLY file and `VARS` is either a list of property names or, in the case of a property list, a single name. Two values are returned: a list of blobs which correspond to the buffers named in `BUFFER-SPEC` and a list of the elements that are in the PLY file in the form of:
+Loads a [PLY](http://paulbourke.net/dataformats/ply/) file. `FILE` is a path that may be pointing to a gziped PLY file. `BUFFER-SPEC` is a list in the form `((NAME VARS) ...)` where `NAME` is the name of an element in the PLY file and `VARS` is either a list of property names or, in the case of a property list, a single name. Two values are returned: a list of u8vectors which correspond to the buffers named in `BUFFER-SPEC` and a list of the elements that are in the PLY file in the form of:
 
     (element-name n-elements (property-name property-type))
 
@@ -233,15 +233,15 @@ The buffers returned are packed with the contents of the properties named in the
 
     (load-ply "example.ply.gz" '((vertex: (x y z r g b)) (face: vertex_index)))
 
-This buffer spec would result in a list of two blobs being returned: one with the packed elements corresponding to properties `x`, `y`, `z`, `r`, `g`, and `b` (with the corresponding property types), and the second containing the vertex indices.
+This buffer spec would result in a list of two u8vectors being returned: one with the packed elements corresponding to properties `x`, `y`, `z`, `r`, `g`, and `b` (with the corresponding property types), and the second containing the vertex indices.
 
-    [procedure] (load-ply-vao FILE #!key VERTEX FACE)
+    [procedure] (load-ply-vao FILE vertex: VERTEX face: FACE)
 
 Similar to `load-ply`, but returns a number of values:
 
 - A vertex array ID as generated by `make-vao`. 
-- A blob representing the vertex data of the model
-- A blob representing the index data of the model
+- A u8vector representing the vertex data of the model
+- A u8vector representing the index data of the model
 - The number of vertices of the model
 - The GL enum value of the type of primitive used for the model (e.g. `+triangles+`)
 - The GL enum value of the element data type 
@@ -266,6 +266,13 @@ Converts the keyword `TYPE` into a OpenGL type enum value. Accepted types (group
 - `uint:` `uint32:` `unsigned-int:` `unsigned-int32:` `unsigned-integer:` `unsigned-integer32:`
 - `float:` `float32:`
 - `double:` `float64:`
+
+#### Vectors (srfi-4)
+gl-utils reexports a version of [srfi-4](http://api.call-cc.org/doc/srfi-4) that gives preference to vectors being created in non-garbage collected memory. This is useful for use with OpenGL, since it is often desirable to pass vectors to OpenGL that will remain in one place. All srfi-4 functions not mentioned below are reexported without changes.
+
+The `NNNvector` and `list->NNNvector` constructors have been modified so that they return vectors in non-garbage collected memory.
+
+The `make-NNNvector` constructors act as their srfi-4 counterparts, except they now return vectors in non-garbage collected memory by default.
 
 ## Example
 This example depends on the [glfw3](http://wiki.call-cc.org/eggref/4/glfw3) egg for window and context creation.
@@ -344,7 +351,7 @@ END
 
   (program (gl:make-program (list *vertex* *fragment*)))
 
-  (vao (make-vao (f32vector->blob vertex-data) (u16vector->blob index-data)
+  (vao (make-vao vertex-data index-data
                  `((,(gl:get-attrib-location (program) "vertex") float: 2)
                    (,(gl:get-attrib-location (program) "color") float: 3))))
   (let loop ()
