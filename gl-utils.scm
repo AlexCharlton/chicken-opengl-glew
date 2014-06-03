@@ -234,7 +234,6 @@
          ((nonnull-scheme-pointer bv) (int off))
     "C_return(*(double *)(&(((char *)bv)[off])));"))
 
-
 ;;; Ply
 (define data-format (make-parameter #f))
 
@@ -315,7 +314,8 @@
                                         identity)
                                     (cdr (assoc el var-bytes)))))]
                 [stride (length mapping)]
-                [blob (make-blob (* n stride))])
+                [buffer (make-u8vector (* n stride))]
+                [blob (u8vector->blob/shared buffer)])
            (dotimes (vertex n)
              (let ([bytes (list-ec (: _ (bytes-per-element vars))
                                    (read-byte))])
@@ -324,7 +324,7 @@
                                          (+ (* vertex stride) i)))
                          mapping
                          (iota stride))))
-           blob)
+           buffer)
          (dotimes (_ (* n (bytes-per-element vars)))
            (read-byte)))))
 
@@ -353,7 +353,8 @@
                 [setters (map (lambda (el) (type->setter (second el)))
                               elements)]
                 [stride (fold + 0 (map third elements))]
-                [blob (make-blob (* n stride))])
+                [buffer (make-u8vector (* n stride))]
+                [blob (u8vector->blob/shared buffer)])
            (dotimes (vertex n)
              (let ([values (list-ec (: _ (length vars)) (read))])
                (for-each (lambda (mapping offset setter)
@@ -362,7 +363,7 @@
                          mapping
                          offsets
                          setters)))
-           blob)
+           buffer)
          (dotimes (_ (* n (length vars)))
            (read)))))
 
@@ -374,6 +375,7 @@
       (error 'load-ply "Face list type must be one byte" list-type))
     (if* (assoc name spec)
          (let* ([blob #f]
+                [buffer #f]
                 [n-bytes (type->bytes type)]
                 [mapping ((if (endian-swap?)
                               reverse
@@ -384,7 +386,8 @@
                (if (= (n-face-vertices) 0)
                    (begin
                      (n-face-vertices n-verts)
-                     (set! blob (make-blob (* n n-verts n-bytes))))
+                     (set! buffer (make-u8vector (* n n-verts n-bytes)))
+                     (set! blob (u8vector->blob/shared buffer)))
                    (when (not (= (n-face-vertices) n-verts))
                      (error 'load-ply "Number of elements must be constant in face list")))
                (dotimes (vertex n-verts)
@@ -398,7 +401,7 @@
                                        i)))
                     bytes
                     mapping)))))
-           blob)
+           buffer)
          (dotimes (_ n)
            (let [(n-verts (read-byte))]
              (if (= (n-face-vertices) 0)
@@ -412,6 +415,7 @@
   (match-let ([(name n (var ('list: list-type type))) el])
     (if* (assoc name spec)
          (let* ([blob #f]
+                [buffer #f]
                 [n-bytes (type->bytes type)]
                 [setter (type->setter type)])
            (dotimes (face n)
@@ -419,13 +423,14 @@
                (if (= (n-face-vertices) 0)
                    (begin
                      (n-face-vertices n-verts)
-                     (set! blob (make-blob (* n n-verts n-bytes))))
+                     (set! buffer (make-u8vector (* n n-verts n-bytes)))
+                     (set! blob (u8vector->blob/shared buffer)))
                    (when (not (= (n-face-vertices) n-verts))
                      (error 'load-ply "Number of elements must be constant in face list")))
                (dotimes (vertex n-verts)
                  (setter blob (read) (+ (* vertex n-bytes)
                                         (* face n-verts n-bytes))))))
-           blob)
+           buffer)
          (dotimes (_ n)
            (let [(n-verts (read))]
              (if (= (n-face-vertices) 0)
