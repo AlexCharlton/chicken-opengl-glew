@@ -505,9 +505,50 @@
                  elements)))))
 
 ;;; VAO creation
-(define blob->pointer
-  (foreign-lambda* c-pointer ((blob b))
-		   "C_return(b);"))
+(define-syntax XXX->pointer
+  (ir-macro-transformer
+   (lambda (e r c)
+     (let* ([type (strip-syntax (cadr e))]
+            [name (string->symbol (string-append (symbol->string type) "->pointer"))])
+       `(define ,name
+          (foreign-lambda* c-pointer ((,type v))
+            "C_return(v);"))))))
+
+(XXX->pointer blob)
+(XXX->pointer u8vector)
+(XXX->pointer s8vector)
+(XXX->pointer u16vector)
+(XXX->pointer s16vector)
+(XXX->pointer u32vector)
+(XXX->pointer s32vector)
+(XXX->pointer f32vector)
+(XXX->pointer f64vector)
+
+(define (->pointer v)
+  (cond
+   [(blob? v) (blob->pointer v)]
+   [(u8vector? v) (u8vector->pointer v)]
+   [(s8vector? v) (s8vector->pointer v)]
+   [(u16vector? v) (u16vector->pointer v)]
+   [(s16vector? v) (s16vector->pointer v)]
+   [(u32vector? v) (u32vector->pointer v)]
+   [(s32vector? v) (s32vector->pointer v)]
+   [(f32vector? v) (f32vector->pointer v)]
+   [(f64vector? v) (f64vector->pointer v)]
+   [else (error 'make-vao "Not a blob or vector" v)]))
+
+(define (size v)
+  (cond
+   [(blob? v) (blob-size v)]
+   [(u8vector? v) (u8vector-length v)]
+   [(s8vector? v) (s8vector-length v)]
+   [(u16vector? v) (* (u16vector-length v) 2)]
+   [(s16vector? v) (* (s16vector-length v) 2)]
+   [(u32vector? v) (* (u32vector-length v) 4)]
+   [(s32vector? v) (* (s32vector-length v) 4)]
+   [(f32vector? v) (* (f32vector-length v) 4)]
+   [(f64vector? v) (* (f64vector-length v) 8)]
+   [else (error 'make-vao "Not a blob or vector" v)]))
 
 (define (make-vao vertex-data index-data attributes
 		  #!optional [usage gl:+static-draw+])
@@ -530,8 +571,8 @@
 	[index-buffer (gl:gen-buffer)])
     (gl:bind-vertex-array vao)
     (gl:bind-buffer gl:+array-buffer+ vert-buffer)
-    (gl:buffer-data gl:+array-buffer+ (blob-size vertex-data)
-		    (blob->pointer vertex-data) usage)
+    (gl:buffer-data gl:+array-buffer+ (size vertex-data)
+		    (->pointer vertex-data) usage)
     (for-each (match-lambda
 	       [(location type n) (vertex-attrib location type n)]
 	       [(location type n 'normalize?: normalize)
@@ -540,8 +581,8 @@
 			    attr)])
 	      attributes)
     (gl:bind-buffer gl:+element-array-buffer+ index-buffer)
-    (gl:buffer-data gl:+element-array-buffer+ (blob-size index-data)
-		    (blob->pointer index-data) usage)
+    (gl:buffer-data gl:+element-array-buffer+ (size index-data)
+		    (->pointer index-data) usage)
     (gl:bind-vertex-array 0)
     (gl:delete-buffer vert-buffer)
     (gl:delete-buffer index-buffer)
