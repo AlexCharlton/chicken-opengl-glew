@@ -47,9 +47,7 @@ END
            0 0 0
            0 1 0))
 
-(define model-matrix (mat4-identity
-                      #t ; Matrix should be in a non-GC'd area
-                      ))
+(define model-matrix (mat4-identity))
 
 (define (render)
   (gl:use-program (program))
