@@ -13,7 +13,7 @@
        [(_ name c-name return . vars)
         (let* ([main-mat (first (last vars))]
                [other-vars (butlast vars)]
-               (result? (compare main-mat 'result))
+               [result? (compare main-mat 'result)]
                [pointer-name (symbol-append 'pointer- (strip-syntax name))]
                [vector-name (symbol-append 'f32vector- (strip-syntax name))]
                [types (map second other-vars)]
@@ -22,12 +22,9 @@
                                          'c-pointer
                                          t))
                                    types)]
-               [vars (map first other-vars)]
-               [arg-list `(,@vars ,@(if result?
-                                        `(#!optional [,main-mat (make-f32vector 16)])
-                                        `(,main-mat)))])
+               [vars (map first other-vars)])
           `(begin
-             (define (,vector-name ,@arg-list)
+             (define (,vector-name ,@vars #!optional (,main-mat (make-f32vector 16)))
                ((foreign-lambda ,return ,c-name ,@types f32vector)
                 ,@vars ,main-mat)
                ,main-mat)
@@ -35,10 +32,12 @@
                ((foreign-lambda ,return ,c-name ,@pointer-types c-pointer)
                 ,@vars ,main-mat)
                ,main-mat)
-             (define (,name ,@arg-list)
+             (define (,name ,@vars #!optional ,main-mat)
                (cond
                 [(pointer? ,main-mat) (,pointer-name ,@vars ,main-mat)]
                 [(f32vector? ,main-mat) (,vector-name ,@vars ,main-mat)]
+                [(boolean? ,main-mat) (,vector-name ,@vars
+                                                    (make-f32vector 16 0 ,main-mat))]
                 [else (error ',name "Wrong argument type" ,main-mat)]))))]))))
 
 (define (print-mat4 matrix)
