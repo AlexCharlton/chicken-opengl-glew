@@ -47,7 +47,9 @@ END
            0 0 0
            0 1 0))
 
-(define model-matrix (mat4-identity))
+(define model-matrix (mat4-identity
+                      #t ; Matrix should be in a non-GC'd area
+                      ))
 
 (define (render)
   (gl:use-program (program))
@@ -73,13 +75,13 @@ END
 
   (program (gl:make-program (list *vertex* *fragment*)))
 
-  (vao (make-vao (f32vector->blob vertex-data) (u16vector->blob index-data)
+  (vao (make-vao vertex-data index-data
                  `((,(gl:get-attrib-location (program) "vertex") float: 2)
                    (,(gl:get-attrib-location (program) "color") float: 3))))
   (let loop ()
      (glfw:swap-buffers (glfw:window))
      (gl:clear (bitwise-ior gl:+color-buffer-bit+ gl:+depth-buffer-bit+))
      (render)
-     (glfw:poll-events)
+     (glfw:poll-events) ; Because of the context version, initializing GLEW results in a harmless invalid enum
      (unless (glfw:window-should-close (glfw:window))
        (loop))))
