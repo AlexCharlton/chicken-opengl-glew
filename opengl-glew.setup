@@ -32,4 +32,4 @@
  'opengl-glew
  '("opengl-glew.so" "opengl-glew.import.so"
    "gl-utils.so" "gl-utils.import.so")
- '((version "0.6.0")))
+ '((version "0.7.0")))
