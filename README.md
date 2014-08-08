@@ -143,6 +143,16 @@ The `NNNvector` and `list->NNNvector` constructors have been modified so that th
 
 The `make-NNNvector` constructors act as their srfi-4 counterparts, except they now return vectors in non-garbage collected memory by default.
 
+Additionally, the following non-srfi-4 procedures are exported:
+
+    [procedure] (->pointer VECTOR)
+
+Returns the pointer to a srfi-4 vector or blob.
+
+    [procedure] (size VECTOR)
+
+Returns the size, in bytes, of a srfi-4 vector or blob.
+
 ## Example
 This example depends on the [glfw3](http://wiki.call-cc.org/eggref/4/glfw3) egg for window and context creation, and the [gl-math](http://wiki.call-cc.org/eggref/4/gl-math) egg for matrix math.
 
@@ -233,6 +243,12 @@ END
 ```
 
 ## Version history
+### Version 0.7.0
+8 August 2014
+
+* Export `->pointer`, `size`
+* Improve shader error messages
+
 ### Version 0.6.0
 17 June 2014
 
