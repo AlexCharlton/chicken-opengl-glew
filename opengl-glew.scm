@@ -36,10 +36,21 @@ unsigned int makeShader(unsigned int type, const char *source){
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &shaderOk);
     if (!shaderOk) {
-	fprintf(stderr, "Failed to compile %s:\n", source);
-	showInfoLog(shader);
-	glDeleteShader(shader);
-	return 0;
+       fprintf(stderr, "Failed to compile shader:\n\n");
+       int i = 0, line = 2;
+       fprintf(stderr, "   1|  ", line);
+       while (source[i]){
+         fputc(source[i], stderr);
+         if(source[i] == '\n'){
+           fprintf(stderr, "%4d|  ", line);
+           line++;
+         }
+         i++;
+       }
+       fprintf(stderr, "\n\n");
+       showInfoLog(shader);
+       glDeleteShader(shader);
+       return 0;
     }
     return shader;
 }
@@ -74,7 +85,7 @@ END
      "GLint programOk;
       glGetProgramiv(program, GL_LINK_STATUS, &programOk);
       if (!programOk) {
-          fprintf(stderr, \"Failed to link shader program:\\n\");
+          fprintf(stderr, \"Failed to link shader program:\\n\\n\");
           showInfoLog(program);
           glDeleteProgram(program);
           C_return(0);
