@@ -26,7 +26,9 @@
    make-u32vector
    make-s32vector
    make-f32vector
-   make-f64vector)
+   make-f64vector
+   ->pointer
+   size)
 
 (import chicken scheme foreign data-structures files ports extras srfi-1 srfi-13 lolevel)
 (use (prefix opengl-glew gl:) z3 matchable srfi-42 miscmacros (prefix srfi-4 v:))
