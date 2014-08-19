@@ -18,6 +18,7 @@ static void showInfoLog(GLuint object){
 
 (bind-rename/pattern "^glew" "")
 (bind-rename/pattern "^GL_([A-Z_].+)$" "+\\1+")
+(bind-rename/pattern "([^_])([123])D" "\\1-\\2d")
 (bind-rename/pattern "^gl" "")
 (bind-rename/pattern "^Is(.*)$" "\\1?")
 

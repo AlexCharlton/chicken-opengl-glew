@@ -20,7 +20,7 @@ It is part of the [Chicken egg index](http://wiki.call-cc.org/chicken-projects/e
 - srfi-42 (gl-utils)
 
 ## Documentation
-All functions and constants from the OpenGL [core header file](http://www.opengl.org/registry/api/GL/glcorearb.h) are exported. Scheme style names are provided (underscores and camelCase replaced with hyphens), the `gl` prefix is removed from names, `is` functions are given question marks, and constants are bookended by `+`s (e.g. `tex-image2d`, `enabled?`, `+arb-viewport-array+`).
+All functions and constants from the OpenGL [core header file](http://www.opengl.org/registry/api/GL/glcorearb.h) are exported. Scheme style names are provided (underscores and camelCase replaced with hyphens), the `gl` prefix is removed from names, functions starting with `is` instead end in question marks, and constants are bookended by `+`s (e.g. `delete-texture`, `enabled?`, `+arb-viewport-array+`). The terms `1D`, `2D` and `3D` are additionally hyphen separated in order to match their constant counterparts (e.g. `tex-image-2d` and `+texture-2d+`).
 
 Functions whose C counterparts accept or return `GLboolean` accept or return a Scheme boolean value. *Do not* pass `+true+` or `+false+` to these functions.
 
