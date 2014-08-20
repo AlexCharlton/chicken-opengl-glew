@@ -568,11 +568,12 @@
 					attr)]))
 		       0 attributes))
   (define (vertex-attrib location type n #!optional [normalize? #f])
-    (gl:vertex-attrib-pointer location n (type->gl-type type)
-			      normalize?
-			      stride (address->pointer offset))
-    (inc! offset (* n (type->bytes type)))
-    (gl:enable-vertex-attrib-array location))
+    (when location
+      (gl:vertex-attrib-pointer location n (type->gl-type type)
+                                normalize?
+                                stride (address->pointer offset))
+      (gl:enable-vertex-attrib-array location))
+    (inc! offset (* n (type->bytes type))))
   (let ([vao (gl:gen-vertex-array)]
 	[vert-buffer (gl:gen-buffer)]
 	[index-buffer (gl:gen-buffer)])

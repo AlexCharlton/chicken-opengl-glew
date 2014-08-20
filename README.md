@@ -82,7 +82,7 @@ gl-utils provides functions for creating VAOs, and loading PLY files.
 
 `make-vao` generalizes the typically repetitious code used to initialize vertex attribute objects. It deals with the case of having packed vertex data (`VERTEX-DATA`) and a vector of indices (`INDEX-DATA`) for those vertexes. This data may be passed as any sort of (srfi-4) vector or a blob.
 
-`ATTRIBUTES` is the list of data necessary for the vertex attributes, in the form of `((LOCATION TYPE N [normalize?: NORMALIZE?]) ...)`. `LOCATION` is the attribute location, `TYPE` is the type of data corresponding to the given attribute, given as a keyword. For possible types, see `type->gl-type`. `N` is the number of elements for the given attribute. The keyword `normalize?:` accepts a boolean argument which instructs OpenGL to normalize the attribute or not. Defaults to `#f`.
+`ATTRIBUTES` is the list of data necessary for the vertex attributes, in the form of `((LOCATION TYPE N [normalize?: NORMALIZE?]) ...)`. `LOCATION` is the attribute location which may be given as `#f` if the attribute is not used. `TYPE` is the type of data corresponding to the given attribute, given as a keyword. For possible types, see `type->gl-type`. `N` is the number of elements for the given attribute. The keyword `normalize?:` accepts a boolean argument which instructs OpenGL to normalize the attribute or not. Defaults to `#f`.
 
 The optional `USAGE` must be one of `+stream-data+`, `+stream-read+`, `stream-copy`, `+static-data+`, `+static-read+`, `static-copy`, `+dynamic-data+`, `+dynamic-read+`, `dynamic-copy`. Defaults to `+static-draw+`.
 
