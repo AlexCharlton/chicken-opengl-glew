@@ -36,6 +36,7 @@ For numerous examples of opengl-glew usage, look at the [gl-utils](http://wiki.c
 24 August 2014
 
 * Split [gl-utils](http://wiki.call-cc.org/eggref/4/gl-utils) into its own egg
+* Hyphen-separate `2D`, `3D`, and `4D` in name conversion
 
 ### Version 0.7.0
 8 August 2014
