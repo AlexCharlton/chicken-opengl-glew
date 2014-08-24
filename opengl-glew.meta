@@ -4,5 +4,5 @@
  (author "Alex Charlton")
  (category graphics)
  (license "BSD")
- (depends make bind z3 matchable miscmacros srfi-42)
+ (depends make bind)
  (foreign-depends "OpenGL" "GLEW"))
