@@ -28,7 +28,11 @@
    make-f32vector
    make-f64vector
    ->pointer
-   size)
+   size
+   with-texture
+   set-texture-properties
+   with-framebuffer
+   create-framebuffer)
 
 (import chicken scheme foreign data-structures files ports extras srfi-1 srfi-13 lolevel)
 (use (prefix opengl-glew gl:) z3 matchable srfi-42 miscmacros (prefix srfi-4 v:))
@@ -636,5 +640,58 @@
                 n-verts
                 primitive-type
                 element-type)))))
+
+(define-syntax with-texture
+  (syntax-rules ()
+    ((with-texture type texture body body-rest ...)
+     (begin (gl:bind-texture type texture)
+            body body-rest ...
+            (gl:bind-texture type 0)))))
+
+(define-syntax with-framebuffer
+  (syntax-rules ()
+    ((with-framebuffer fbo body body-rest ...)
+     (begin (gl:bind-framebuffer gl:+framebuffer+ fbo)
+            body body-rest ...
+            (gl:bind-framebuffer gl:+framebuffer+ 0)))))
+
+(define (set-texture-properties id #!key (type gl:+texture-2d+)
+                                (mag gl:+linear+) (min gl:+linear+)
+                                wrap
+                                (wrap-s gl:+repeat+) (wrap-t gl:+repeat+)
+                                (wrap-r gl:+repeat+))
+  (with-texture type id
+    (gl:tex-parameteri type gl:+texture-mag-filter+ mag)
+    (gl:tex-parameteri type gl:+texture-min-filter+ min)
+    (if wrap
+        (begin (gl:tex-parameteri type gl:+texture-wrap-s+ wrap)
+               (gl:tex-parameteri type gl:+texture-wrap-t+ wrap)
+               (gl:tex-parameteri type gl:+texture-wrap-r+ wrap))
+        (begin (gl:tex-parameteri type gl:+texture-wrap-s+ wrap-s)
+               (gl:tex-parameteri type gl:+texture-wrap-t+ wrap-t)
+               (gl:tex-parameteri type gl:+texture-wrap-r+ wrap-r)))))
+
+(define (create-framebuffer width height #!key (channels 4) (type gl:+unsigned-byte+))
+  (let ((tex (gl:gen-texture))
+        (rend (gl:gen-renderbuffer))
+        (fbo (gl:gen-framebuffer))
+        (format (case channels
+                  ((1) gl:+red+)
+                  ((2) gl:+rg+)
+                  ((3) gl:+rgb+)
+                  ((4) gl:+rgba+))))
+    (set-texture-properties tex)
+    (with-texture gl:+texture-2d+ tex
+      (gl:tex-image-2d gl:+texture-2d+ 0 format width height 0 format type #f))
+    (gl:bind-renderbuffer gl:+renderbuffer+ rend)
+    (gl:renderbuffer-storage gl:+renderbuffer+ gl:+depth-component+ width height)
+    (gl:bind-renderbuffer gl:+renderbuffer+ 0)
+    (with-framebuffer fbo
+      (gl:framebuffer-texture-2d gl:+framebuffer+ gl:+color-attachment0+
+                                 gl:+texture-2d+ tex 0)
+      (gl:framebuffer-renderbuffer gl:+framebuffer+ gl:+depth-attachment+
+                                   gl:+renderbuffer+ rend))
+
+    (values fbo tex rend)))
 
 ); end module
