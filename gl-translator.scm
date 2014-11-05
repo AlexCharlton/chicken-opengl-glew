@@ -11,16 +11,23 @@
     ("extern.*\n" . "")
     ("ptrdiff_t" . "signed int")
     ("APIENTRY" . "")
+    ("GL_APICALL" . "")
+    ("GL_ " . "")
     ("\n}\n" . "")
     ("#include.*\n" . "")
     ("#define GL_VERSION.*\n" . "")
+    ("#define GL_ES_VERSION.*\n" . "")
     ("#define [^G].*\n" . "")
     ((: "*const*") . "**")
     ((: newline (*? (or alpha numeric ("()*") space)) "PFNGL" (*? any) eol) . "")
     ("#endif .*\n" . "")
-    ("typedef .*_t;\n" . "")
-    ("typedef uint64_t GLuint64;\ntypedef int64_t GLint64;" .
-     "typedef unsigned long int GLuint64;\ntypedef long int GLint64;")
+    ;; ("typedef .*_t;\n" . "")
+    ;; ("typedef uint64_t GLuint64;\ntypedef int64_t GLint64;" .
+    ;;  "typedef unsigned long int GLuint64;\ntypedef long int GLint64;")
+    ("khronos_ssize_t" . "signed int")
+    ("khronos_intptr_t" . "signed int")
+    ("khronos_float_t" . "float")
+    ("khronos_" . "")
     ("typedef unsigned char GLboolean;" . "typedef bool GLboolean;" )
     ("\n\n" . "\n")))
 
@@ -30,7 +37,7 @@
       (call-with-input-file file
         (lambda (input)
           (let ([h (read-string #f input)])
-            (let loop ([str h] [replacements *replacements*])
+            (let loop ((str h) (replacements *replacements*))
               (if (null? replacements)
                   (write-string str #f output)
                   (loop (irregex-replace/all (caar replacements) str

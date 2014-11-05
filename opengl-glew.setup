@@ -4,6 +4,16 @@
 
 (include "gl-translator")
 
+(define gl-client
+  (cond-expand
+    (arm "-Dgles")
+    (else "-lGLEW")))
+
+(define header
+  (cond-expand
+    ((or gles arm) "gles.h")
+    (else "glcorearb.h")))
+
 (define compile-options
   (cond-expand
     (macosx "-FOpenGL")
@@ -13,15 +23,13 @@
   (cond-expand
     (macosx "-framework OpenGL")
     (windows "-lopengl32")
+    ((or gles arm) "-lGLESv2")
     (else "-lGL")))
 
-(make (("gl.h" ("glcorearb.h")
-        (gl-translate "glcorearb.h"))
-       ("opengl-glew.so" ("opengl-glew.scm" "gl.h")
-        (compile -s -O3 -d0 opengl-glew.scm ,compile-options ,link-options -lGLEW -J))
-       ("opengl-glew.import.so" ("opengl-glew.so")
-        (compile -s -O3 -d0 opengl-glew.import.scm)))
-  '("opengl-glew.so" "opengl-glew.import.so"))
+(print "Translating " header)
+(gl-translate header)
+(compile -s -O3 -d0 opengl-glew.scm ,compile-options ,link-options ,gl-client -J)
+(compile -s -O3 -d0 opengl-glew.import.scm)
 
 (install-extension
  'opengl-glew
