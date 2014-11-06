@@ -21,9 +21,9 @@
     ((: "*const*") . "**")
     ((: newline (*? (or alpha numeric ("()*") space)) "PFNGL" (*? any) eol) . "")
     ("#endif .*\n" . "")
-    ;; ("typedef .*_t;\n" . "")
-    ;; ("typedef uint64_t GLuint64;\ntypedef int64_t GLint64;" .
-    ;;  "typedef unsigned long int GLuint64;\ntypedef long int GLint64;")
+    ("typedef .*_t;\n" . "")
+    ("typedef uint64_t GLuint64;\ntypedef int64_t GLint64;" .
+     "typedef unsigned long int GLuint64;\ntypedef long int GLint64;")
     ("khronos_ssize_t" . "signed int")
     ("khronos_intptr_t" . "signed int")
     ("khronos_float_t" . "float")

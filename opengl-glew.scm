@@ -20,7 +20,7 @@
 (define (is-supported? str)
   (cond-expand
     (gles (error "is-supported? is not suported with GL ES"))
-    ((foreign-lambda bool "glewIsSupported" (c-string)) str)))
+    (else ((foreign-lambda bool "glewIsSupported" c-string) str))))
 
 (define init
   (cond-expand
