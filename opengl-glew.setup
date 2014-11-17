@@ -7,6 +7,7 @@
 (define gl-client
   (cond-expand
     (arm "-Dgles")
+    (windows "-lglew32")
     (else "-lGLEW")))
 
 (define header
