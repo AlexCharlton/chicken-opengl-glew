@@ -1,5 +1,6 @@
 *#
 *.import.scm
+*.types
 *.so
 *.c
 *.o

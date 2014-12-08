@@ -29,10 +29,11 @@
 
 (print "Translating " header)
 (gl-translate header)
-(compile -s -O3 -d0 opengl-glew.scm ,compile-options ,link-options ,gl-client -J)
+(compile -s -O3 -d0 opengl-glew.scm ,compile-options ,link-options ,gl-client -J
+         -emit-type-file opengl-glew.types)
 (compile -s -O3 -d0 opengl-glew.import.scm)
 
 (install-extension
  'opengl-glew
- '("opengl-glew.so" "opengl-glew.import.so")
+ '("opengl-glew.so" "opengl-glew.import.so" "opengl-glew.types")
  '((version "0.9.0")))
