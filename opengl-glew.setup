@@ -25,6 +25,7 @@
     (macosx "-framework OpenGL")
     (windows "-lopengl32")
     ((or gles arm) "-lGLESv2")
+    (x86-64 "-lGL -rpath /usr/lib64")
     (else "-lGL")))
 
 (print "Translating " header)
