@@ -4,5 +4,5 @@
  (author "Alex Charlton")
  (category graphics)
  (license "BSD")
- (depends make bind)
+ (depends bind)
  (foreign-depends "OpenGL" "GLEW"))

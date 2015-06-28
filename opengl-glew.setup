@@ -1,7 +1,5 @@
 ;; opengl-glew.setup -*- scheme -*-
 
-(use make)
-
 (include "gl-translator")
 
 (define gl-client
