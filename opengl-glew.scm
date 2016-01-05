@@ -3,8 +3,8 @@
 (use bind)
 
 (cond-expand
- (gles #f)
- (else (foreign-declare "#include <GL/glew.h>")))
+  (gles (foreign-declare "#include <GLES3/gl3.h>"))
+  (else (foreign-declare "#include <GL/glew.h>")))
 
 (bind-rename/pattern "^glew" "")
 (bind-rename/pattern "^GL_([A-Z_].+)$" "+\\1+")
