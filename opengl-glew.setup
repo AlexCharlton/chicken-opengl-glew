@@ -35,4 +35,4 @@
 (install-extension
  'opengl-glew
  '("opengl-glew.so" "opengl-glew.import.so" "opengl-glew.types")
- '((version "0.9.4")))
+ '((version "0.10.0")))
