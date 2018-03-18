@@ -22,6 +22,15 @@
     (gles (error "is-supported? is not suported with GL ES"))
     (else ((foreign-lambda bool "glewIsSupported" c-string) str))))
 
+(let ((pointer->string (foreign-lambda* c-string ((c-pointer p))
+                         "C_return((char*) p);"))
+      (%get-string get-string)
+      (%get-stringi get-stringi))
+  (set! get-string
+    (lambda (n) (pointer->string (%get-string n))))
+  (set! get-stringi
+    (lambda (n i) (pointer->string (%get-stringi n i)))))
+
 (define init
   (cond-expand
    (gles (lambda () #f))

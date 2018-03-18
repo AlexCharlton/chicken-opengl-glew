@@ -19,7 +19,7 @@
     ("APIENTRY " . "")
     ("\n}\n" . "")
     ("#include.*\n" . "")
-    ("#define GL_VERSION.*\n" . "")
+    ("#define GL_VERSION_.*\n" . "")
     ("#define GL_ES_VERSION.*\n" . "")
     ("#define [^G].*\n" . "")
     ((: "*const*") . "**")
